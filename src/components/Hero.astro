@@ -1,0 +1,202 @@
+---
+import Nav from './Nav.astro';
+import Icons from './Icons.astro';
+import { asset, links } from '../lib/site';
+
+// Scenes crossfade in the background, the way the reference site loops a video.
+const scenes = [
+  asset('images/house-dusk.jpg'),
+  asset('images/study-dream.jpg'),
+  asset('images/conservatory-dream.jpg'),
+  asset('images/music-room-dream.jpg'),
+];
+
+// The title is split into letters so each can rise out of a blur on its own
+// delay. Spaces become non-breaking so inline-block letters keep their width.
+const LETTER_STEP = 0.045;
+const splitLetters = (text: string, offset: number) =>
+  [...text].map((ch, i) => ({ ch: ch === ' ' ? ' ' : ch, delay: offset + i * LETTER_STEP }));
+
+const line1 = splitLetters('The room that', 0.2);
+const line2 = splitLetters('remembers.', 0.2 + line1.length * LETTER_STEP + 0.15);
+const titleDone = line2[line2.length - 1].delay + 0.9;
+---
+
+<section id="top" class="relative min-h-screen overflow-hidden flex flex-col">
+  <div class="absolute inset-0" id="hero-scenes" aria-hidden="true">
+    {scenes.map((src, i) => (
+      <img
+        src={src}
+        alt=""
+        class="hero-scene absolute inset-0 w-full h-full object-cover object-bottom"
+        style="opacity: 0"
+        loading={i === 0 ? 'eager' : 'lazy'}
+        decoding="async"
+      />
+    ))}
+    <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/25 to-black"></div>
+  </div>
+
+  <Nav />
+
+  <div class="relative z-10 flex-1 flex flex-col items-center justify-center px-6 py-12 text-center -translate-y-[4%] md:-translate-y-[8%]">
+    <h1
+      class="hero-title font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-white tracking-tight leading-[1] mb-8"
+      aria-label="The room that remembers."
+    >
+      <span class="block" aria-hidden="true">
+        {line1.map((l) => <span class="hero-letter" style={`--d: ${l.delay.toFixed(3)}s`}>{l.ch}</span>)}
+      </span>
+      <em class="hero-glow block italic" aria-hidden="true">
+        {line2.map((l) => <span class="hero-letter" style={`--d: ${l.delay.toFixed(3)}s`}>{l.ch}</span>)}
+      </em>
+    </h1>
+
+    <a
+      href={links.play}
+      target="_blank"
+      rel="noopener"
+      class="hero-fade liquid-glass rounded-full max-w-xl w-full pl-6 pr-2 py-2 flex items-center gap-3 mb-6 group"
+      style={`--d: ${(titleDone - 0.5).toFixed(2)}s`}
+    >
+      <span class="flex-1 text-left text-white/80 text-sm md:text-base truncate">Play free in your browser. About fifteen minutes.</span>
+      <span class="bg-white rounded-full p-3 text-black shrink-0 transition-transform group-hover:translate-x-0.5">
+        <Icons name="arrow-right" size={20} />
+      </span>
+    </a>
+
+    <p class="hero-fade text-white text-sm leading-relaxed px-4 max-w-md mb-8" style={`--d: ${(titleDone - 0.3).toFixed(2)}s`}>
+      A short puzzle adventure about a house that keeps what was lost. Three rooms, two worlds, one photograph.
+    </p>
+
+    <a
+      href="#trailer"
+      class="hero-fade liquid-glass rounded-full px-8 py-3 text-white text-sm font-medium hover:bg-white/5 transition-colors inline-flex items-center gap-2"
+      style={`--d: ${(titleDone - 0.1).toFixed(2)}s`}
+    >
+      <Icons name="play" size={12} />
+      Watch the trailer
+    </a>
+  </div>
+
+  <div class="hero-fade relative z-10 flex justify-center gap-4 pb-12" style={`--d: ${(titleDone + 0.1).toFixed(2)}s`}>
+    <a href={links.play} target="_blank" rel="noopener" aria-label="Play on itch.io" class="liquid-glass rounded-full p-4 text-white/80 hover:text-white hover:bg-white/5 transition-all">
+      <Icons name="gamepad" size={20} />
+    </a>
+    <a href={links.trailer} target="_blank" rel="noopener" aria-label="Trailer on YouTube" class="liquid-glass rounded-full p-4 text-white/80 hover:text-white hover:bg-white/5 transition-all">
+      <Icons name="youtube" size={20} />
+    </a>
+  </div>
+</section>
+
+<style>
+  .hero-scene {
+    will-change: opacity, transform;
+  }
+  .hero-scene.zooming {
+    animation: hero-zoom 9s linear forwards;
+  }
+  @keyframes hero-zoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.06); }
+  }
+  /* Title entrance: each letter rises out of a blur on its own delay. */
+  .hero-letter {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.4em) rotate(3deg) scale(0.96);
+    filter: blur(14px);
+    animation: hero-letter-in 1s cubic-bezier(0.22, 1, 0.36, 1) var(--d) forwards;
+    will-change: opacity, transform, filter;
+  }
+  @keyframes hero-letter-in {
+    to {
+      opacity: 1;
+      transform: none;
+      filter: blur(0);
+    }
+  }
+
+  /* "remembers." keeps breathing after it lands: a warm lantern glow and a slow drift. */
+  .hero-glow {
+    color: #fff4dc;
+    animation: hero-glow 5.5s ease-in-out 2.4s infinite, hero-drift 8s ease-in-out 2.4s infinite;
+    will-change: text-shadow, transform;
+  }
+  @keyframes hero-glow {
+    0%, 100% { text-shadow: 0 0 18px rgba(255, 214, 140, 0.15), 0 0 60px rgba(255, 190, 100, 0); }
+    50% { text-shadow: 0 0 24px rgba(255, 214, 140, 0.55), 0 0 90px rgba(255, 190, 100, 0.25); }
+  }
+  @keyframes hero-drift {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-5px) rotate(-0.4deg); }
+  }
+
+  /* The rest of the hero follows the title in. */
+  .hero-fade {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: hero-fade-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--d) forwards;
+  }
+  @keyframes hero-fade-in {
+    to { opacity: 1; transform: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-scene.zooming { animation: none; }
+    .hero-letter, .hero-fade {
+      animation: none;
+      opacity: 1;
+      transform: none;
+      filter: none;
+    }
+    .hero-glow { animation: none; }
+  }
+</style>
+
+<script>
+  // Crossfade through the scenes with requestAnimationFrame, no CSS
+  // transitions: fade one in over 500ms, hold, fade out over 500ms, next.
+  const scenes = Array.from(document.querySelectorAll<HTMLImageElement>('#hero-scenes .hero-scene'));
+  const HOLD_MS = 7000;
+  const FADE_MS = 500;
+
+  const fade = (el: HTMLElement, from: number, to: number, ms: number) =>
+    new Promise<void>((resolve) => {
+      const start = performance.now();
+      const step = (now: number) => {
+        const t = Math.min((now - start) / ms, 1);
+        el.style.opacity = String(from + (to - from) * t);
+        if (t < 1) requestAnimationFrame(step);
+        else resolve();
+      };
+      requestAnimationFrame(step);
+    });
+
+  const whenLoaded = (img: HTMLImageElement) =>
+    img.complete
+      ? Promise.resolve()
+      : new Promise<void>((resolve) => {
+          img.addEventListener('load', () => resolve(), { once: true });
+          img.addEventListener('error', () => resolve(), { once: true });
+        });
+
+  const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  async function loop() {
+    if (scenes.length === 0) return;
+    let i = 0;
+    for (;;) {
+      const el = scenes[i];
+      await whenLoaded(el);
+      el.classList.add('zooming');
+      await fade(el, 0, 1, FADE_MS);
+      await sleep(HOLD_MS);
+      await fade(el, 1, 0, FADE_MS);
+      el.classList.remove('zooming');
+      await sleep(100);
+      i = (i + 1) % scenes.length;
+    }
+  }
+  loop();
+</script>

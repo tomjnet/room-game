@@ -1,0 +1,70 @@
+---
+import { asset } from '../lib/site';
+---
+
+<section id="worlds" class="bg-black py-28 md:py-40 px-6 overflow-hidden scroll-mt-24">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="reveal text-5xl md:text-7xl lg:text-8xl text-white tracking-tight mb-16 md:mb-24" style="--reveal-y: 40px">
+      Reality <span class="font-serif italic text-white/40">x</span> Dream
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+      <div class="reveal" style="--reveal-y: 0px; --reveal-x: -40px">
+        <div class="compare relative rounded-3xl overflow-hidden aspect-[4/3] select-none ring-1 ring-white/10" id="compare">
+          <img src={asset('images/study-dream.jpg')} alt="The study in the Dream: indigo light, gold cracks on the clock" class="absolute inset-0 w-full h-full object-cover" draggable="false" />
+          <div class="compare-top absolute inset-0" style="clip-path: inset(0 50% 0 0)">
+            <img src={asset('images/study-reality.jpg')} alt="The study in Reality: warm light, a stopped clock" class="absolute inset-0 w-full h-full object-cover" draggable="false" />
+          </div>
+          <div class="compare-handle absolute top-0 bottom-0 w-px bg-white/80 pointer-events-none" style="left: 50%">
+            <div class="liquid-glass absolute top-1/2 -translate-y-1/2 -translate-x-1/2 rounded-full w-10 h-10 flex items-center justify-center text-white text-xs">
+              <span aria-hidden="true">&#8596;</span>
+            </div>
+          </div>
+          <span class="absolute left-4 top-4 liquid-glass rounded-full px-3 py-1 text-xs tracking-widest uppercase text-white/80">Reality</span>
+          <span class="absolute right-4 top-4 liquid-glass rounded-full px-3 py-1 text-xs tracking-widest uppercase text-white/80">Dream</span>
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value="50"
+            aria-label="Slide between Reality and the Dream"
+            class="compare-range absolute inset-0 w-full h-full opacity-0 cursor-ew-resize m-0"
+          />
+        </div>
+        <p class="mt-3 text-white/40 text-xs tracking-widest uppercase">Drag to switch worlds. In the game, press Space.</p>
+      </div>
+
+      <div class="reveal flex flex-col gap-8" style="--reveal-y: 0px; --reveal-x: 40px">
+        <div>
+          <p class="text-white/40 text-xs tracking-widest uppercase mb-4">Two worlds, one room</p>
+          <p class="text-white/70 text-base md:text-lg leading-relaxed">
+            Reality is the house now: dust, a stopped clock, a closed flower, a music box missing a note. The Dream is the house as it remembers itself: indigo light and gold cracks on the objects that still hold a memory. Switch worlds and the furniture stays exactly where it was.
+          </p>
+        </div>
+        <div class="w-full h-px bg-white/10"></div>
+        <div>
+          <p class="text-white/40 text-xs tracking-widest uppercase mb-4">The rule</p>
+          <p class="text-white/70 text-base md:text-lg leading-relaxed">
+            Doors only open in Reality. Puzzles are only solvable in the Dream. Rewards are only collected in Reality. Only the objects with gold cracks carry change between the two. That asymmetry is the whole mechanic.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const root = document.getElementById('compare');
+  if (root) {
+    const range = root.querySelector<HTMLInputElement>('.compare-range')!;
+    const top = root.querySelector<HTMLElement>('.compare-top')!;
+    const handle = root.querySelector<HTMLElement>('.compare-handle')!;
+    const apply = () => {
+      const v = Number(range.value);
+      top.style.clipPath = `inset(0 ${100 - v}% 0 0)`;
+      handle.style.left = `${v}%`;
+    };
+    range.addEventListener('input', apply);
+    apply();
+  }
+</script>

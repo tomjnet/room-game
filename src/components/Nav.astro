@@ -1,0 +1,24 @@
+---
+import Icons from './Icons.astro';
+import { links } from '../lib/site';
+---
+
+<nav class="relative z-20 px-6 py-6">
+  <div class="liquid-glass rounded-full max-w-5xl mx-auto px-6 py-3 flex items-center justify-between">
+    <div class="flex items-center min-w-0">
+      <a href="#top" class="flex items-center gap-2 text-white min-w-0">
+        <Icons name="lantern" size={24} class="shrink-0" />
+        <span class="font-semibold text-lg whitespace-nowrap truncate">The Room That Remembers</span>
+      </a>
+      <div class="hidden md:flex items-center gap-8 ml-8">
+        <a href="#trailer" class="text-white/80 hover:text-white text-sm font-medium transition-colors">Trailer</a>
+        <a href="#rooms" class="text-white/80 hover:text-white text-sm font-medium transition-colors">Rooms</a>
+        <a href="#how-to-play" class="text-white/80 hover:text-white text-sm font-medium transition-colors">How to play</a>
+      </div>
+    </div>
+    <div class="flex items-center gap-4 shrink-0">
+      <a href={links.trailer} target="_blank" rel="noopener" class="hidden sm:inline text-white text-sm font-medium hover:text-white/80 transition-colors">Watch</a>
+      <a href={links.play} target="_blank" rel="noopener" class="liquid-glass rounded-full px-6 py-2 text-white text-sm font-medium hover:bg-white/5 transition-colors whitespace-nowrap">Play free</a>
+    </div>
+  </div>
+</nav>

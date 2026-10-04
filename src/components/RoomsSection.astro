@@ -1,0 +1,81 @@
+---
+import Icons from './Icons.astro';
+import { asset, links } from '../lib/site';
+
+const rooms = [
+  {
+    tag: 'Time',
+    title: 'The Study',
+    description:
+      'The clock stopped at the hour the family gathered. Wind it back in the Dream and the drawer in Reality gives up the first piece of the photograph.',
+    reality: asset('images/study-reality.jpg'),
+    dream: asset('images/study-dream.jpg'),
+  },
+  {
+    tag: 'Light',
+    title: 'The Conservatory',
+    description:
+      'A moonflower waits on a pedestal under three mirrors. Bring the moonlight to it and the glass house remembers the family together.',
+    reality: asset('images/conservatory-reality.jpg'),
+    dream: asset('images/conservatory-dream.jpg'),
+  },
+  {
+    tag: 'Sound',
+    title: 'The Music Room',
+    description:
+      'The music box knows the tune but is missing a note. Find it on the bells, and the empty frame on the wall receives the last piece.',
+    reality: asset('images/music-room-reality.jpg'),
+    dream: asset('images/music-room-dream.jpg'),
+  },
+];
+---
+
+<section id="rooms" class="relative bg-black py-28 md:py-40 px-6 overflow-hidden scroll-mt-24">
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.02)_0%,_transparent_60%)]"></div>
+  <div class="relative max-w-6xl mx-auto">
+    <div class="reveal flex items-end justify-between mb-12 md:mb-16" style="--reveal-y: 30px; --reveal-duration: 0.7s">
+      <h2 class="text-3xl md:text-5xl text-white tracking-tight">Three rooms, <span class="font-serif italic text-white/60">one photograph</span></h2>
+      <p class="hidden md:block text-white/40 text-sm">Hover a room to dream</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+      {rooms.map((room, i) => (
+        <a
+          href={links.play}
+          target="_blank"
+          rel="noopener"
+          class="reveal liquid-glass rounded-3xl overflow-hidden group block"
+          style={`--reveal-y: 50px; --reveal-delay: ${i * 0.15}s`}
+        >
+          <div class="relative aspect-video overflow-hidden">
+            <img
+              src={room.reality}
+              alt={`${room.title} in Reality`}
+              class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              src={room.dream}
+              alt={`${room.title} in the Dream`}
+              class="absolute inset-0 w-full h-full object-cover opacity-0 transition-all duration-700 group-hover:opacity-100 group-hover:scale-105"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+          </div>
+          <div class="p-6 md:p-8">
+            <div class="flex items-center justify-between mb-4">
+              <span class="uppercase tracking-widest text-white/40 text-xs">{room.tag}</span>
+              <span class="liquid-glass rounded-full p-2 text-white/80 group-hover:text-white transition-colors">
+                <Icons name="arrow-up-right" size={16} />
+              </span>
+            </div>
+            <h3 class="text-white text-xl md:text-2xl mb-3 tracking-tight">{room.title}</h3>
+            <p class="text-white/50 text-sm leading-relaxed">{room.description}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

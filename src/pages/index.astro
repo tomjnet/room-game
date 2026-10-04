@@ -1,0 +1,25 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import AboutSection from '../components/AboutSection.astro';
+import TrailerSection from '../components/TrailerSection.astro';
+import WorldsSection from '../components/WorldsSection.astro';
+import RoomsSection from '../components/RoomsSection.astro';
+import HowToPlaySection from '../components/HowToPlaySection.astro';
+import ClosingSection from '../components/ClosingSection.astro';
+---
+
+<Layout
+  title="The Room That Remembers"
+  description="A 15-minute puzzle adventure about a house that keeps what was lost. Three rooms, two worlds, one photograph. Free in your browser."
+>
+  <main class="bg-black">
+    <Hero />
+    <AboutSection />
+    <TrailerSection />
+    <WorldsSection />
+    <RoomsSection />
+    <HowToPlaySection />
+    <ClosingSection />
+  </main>
+</Layout>

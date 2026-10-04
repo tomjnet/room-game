@@ -1,0 +1,18 @@
+{
+  "name": "the-room-that-remembers-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Landing page for The Room That Remembers, a 15-minute browser puzzle adventure free in your browser.",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.0",
+    "astro": "^5.12.0",
+    "tailwindcss": "^4.1.0"
+  }
+}

@@ -1,0 +1,82 @@
+---
+import Icons from './Icons.astro';
+import { asset, links } from '../lib/site';
+
+const controls = [
+  { key: 'Click', value: 'Look closer at an object' },
+  { key: 'Space', value: 'Switch between Reality and the Dream' },
+  { key: 'Esc', value: 'Close a close-up' },
+  { key: 'H', value: 'Get a hint' },
+  { key: 'M', value: 'Mute' },
+];
+
+const facts = [
+  { label: 'Length', value: 'About fifteen minutes on a first playthrough' },
+  { label: 'Where', value: 'Free in your browser, nothing to install' },
+  { label: 'Languages', value: 'English, Spanish and French' },
+  { label: 'Pace', value: 'No death, no timer, no inventory. If you are stuck, press H.' },
+];
+---
+
+<section id="how-to-play" class="relative bg-black py-28 md:py-40 px-6 overflow-hidden scroll-mt-24">
+  <div class="relative max-w-6xl mx-auto">
+    <h2 class="reveal text-5xl md:text-7xl text-white tracking-tight mb-16 md:mb-24" style="--reveal-y: 40px">
+      How to <span class="font-serif italic text-white/40">play</span>
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-10 md:gap-16 items-start">
+      <div class="reveal" style="--reveal-y: 0px; --reveal-x: -40px">
+        <div class="liquid-glass rounded-3xl overflow-hidden">
+          <div class="relative aspect-[3/4] bg-gradient-to-b from-white/[0.04] to-transparent">
+            <img
+              src={asset('images/character.webp')}
+              alt="The protagonist: mustard coat, red scarf, satchel and lantern"
+              class="absolute inset-0 w-full h-full object-contain p-6"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="p-6">
+            <p class="text-white/50 text-xs tracking-widest uppercase mb-2">You</p>
+            <p class="text-white/70 text-sm leading-relaxed">
+              The child in the photograph, grown. You come back with the lantern that was your mother's, and the house recognizes it before it recognizes you.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal flex flex-col gap-8" style="--reveal-y: 0px; --reveal-x: 40px">
+        <p class="text-white/70 text-base md:text-lg leading-relaxed">
+          Walk the three rooms. Click what catches your eye. When an object will not give up what it keeps, switch to the Dream and see what it is waiting for. Come back to Reality to collect it.
+        </p>
+
+        <dl class="flex flex-col divide-y divide-white/10">
+          {controls.map((c) => (
+            <div class="flex items-center gap-6 py-3">
+              <dt class="liquid-glass rounded-full px-4 py-1.5 text-white text-xs font-medium tracking-wide min-w-[4.5rem] text-center">{c.key}</dt>
+              <dd class="text-white/70 text-sm md:text-base">{c.value}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <div class="w-full h-px bg-white/10"></div>
+
+        <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
+          {facts.map((f) => (
+            <div>
+              <dt class="text-white/40 text-xs tracking-widest uppercase mb-2">{f.label}</dt>
+              <dd class="text-white/80 text-sm leading-relaxed">{f.value}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <div class="pt-2">
+          <a href={links.play} target="_blank" rel="noopener" class="liquid-glass rounded-full px-8 py-3 text-white text-sm font-medium inline-flex items-center gap-2 hover:bg-white/5 transition-colors">
+            Play the game
+            <Icons name="arrow-up-right" size={16} />
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
